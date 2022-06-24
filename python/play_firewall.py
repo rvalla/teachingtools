@@ -20,6 +20,10 @@ wrong_msg = ["No che... No pasa.",
 			"El mensaje se quedó trabado.",
 			"No, este no pasa.",
 			"Vas a tener que seguir probando. No pasa."]
+cheat_msg = ["He detectado la trampa.",
+			"¡Trampa! Ese mensaje ya había pasado.",
+			"No vale usar dos veces el mismo mensaje.",
+			"¡Ese mensaje ya había pasado!"]
 
 #We can start with a message...
 print("Hola, voy a desafiarte...", end="\n")
@@ -34,11 +38,11 @@ def start():
 		round = pl.get_firewall_game(int(d)-1)
 		print(round["ex_pass"].capitalize() + " pasa...", end="\n")
 		print(round["ex_notpass"].capitalize() + " no pasa...", end="\n")
-		#global hits
 		hits.add(round["ex_pass"])
 		check_game(round["algorithm"], round["in_type"], round["parameters"], 0)
 	except:
 		print("No puedo procesar eso. Termino el desafío.", end="\n")
+		hits.clear()
 		start()
 
 #Interacting with user's messages...
@@ -64,10 +68,11 @@ def check_game(a, in_type, args, hits_count):
 				else:
 					print(rd.choice(wrong_msg), end="\n")
 			else:
-				print("He detectado la trampa...", end="\n")
+				print(rd.choice(cheat_msg), end="\n")
 			check_game(a, in_type, args, hits_count)
 	else:
 		print("¡Bravo! Lograste pasar " + str(victory_threshold) + " mensajes... ¡Ganaste!", end="\n")
+		hits.clear()
 		start()
 
 start()
